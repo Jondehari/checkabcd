@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Xml.Serialization;
 namespace Checkyouright
 {
     class Program
@@ -21,6 +22,10 @@ namespace Checkyouright
             string archivefilepath = @"D:\DestPath\";
             string logfilepath = @"D:\LoggingPath\";
             string logfilename = "invalidlog.txt";
+            //XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Claim>));
+            //StreamReader streamReader = new StreamReader(inputfilepathxml);
+            //var details = xmlSerializer.Deserialize(streamReader);
+             //string webpatern = @"^ http(s) ?://([\w-]+.)+[\w-]+(/[\w- ./?%&=])?$";
             //List<Claim> fulldata = Readdatafromfile(inputfilepath);
             //InsertrecordintDB(con,fulldata);
             //List<Claim> fetch = FetchDataFromDatabase(con);
