@@ -78,6 +78,14 @@ validationService.add("/country",item).then(function(resolve){
 });
 }
 };
+	$scope.itemdelete=function(id,idx){
+    if(confirm("Do You Want TO dELETE")){
+        $scope.user.splice(idx,1);
+        validationService.deletepost(id).then(function(responce){
+
+        })
+    }
+}
     $scope.UpdateCountry=function(){
         alert("ServiceHit");
         
