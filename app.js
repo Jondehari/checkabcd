@@ -155,3 +155,5 @@ return function(items,searchText){
 return filtered;
 }
 });
+//cd to C:\Program Files\MongoDB\Server\3.2\bin>
+//mongod --port 27017 --dbpath "C:\MongoDB\data\db"
