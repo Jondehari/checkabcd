@@ -1,55 +1,108 @@
 // create angular app
-var validationApp = angular.module('validationApp', []);
+var app = angular.module("app", []);
 
 // create angular controller
-validationApp.controller('mainController',['validationService', function($scope,validationService) {
+app.controller('mainController',function($scope,validationService,$http,$q) {
+			
+    $scope.TotalList=[];
+    var latestcountryList=function(){
+    $http({
+    method:'GET',
+    url:"https://reqres.in/api/users?page=1",
+    datatype:'json',
+    Headers:{'Content-Type':'application/json'}
+    }).success(function(responce){
+    $scope.TotalList=responce.data;
+    console.log("rrrrrrrrrr",$scope.TotalList);
+    console.log(responce.data);
+    }).error(function (error1){
 
-	// function to submit the form after all validation has occurred			
-	$scope.submitForm = function(isValid) {
-
-		// check to make sure the form is completely valid
-		if (isValid) { 
-			alert('our form is amazing');
-		}
+    });
 
     };
-    $scope.countryList=function()
-    {
-        alert("Koushik");
-        validationService.countrylist().then(function (res) {
-            console.log("LOGGGGOUTTTT",res);
-            
-        }, function (err) {
-           
-        });
-    };
-    
+    latestcountryList();
     $scope.resetForm=function(){
-        $scope.country='';
+        $scope.user=[];
         $scope.error='';
 
 
     };
-
+    $scope.kList=[];
+    var latestnewContryList=function(){
+    validationService.GetcountryList().then(function(data){
+        $scope.kList=data;
+        console.log("fdffddd",$scope.kList);
+    })
+}
+latestnewContryList();
+$scope.user=[];
     $scope.editCountry=function(item){
-        $scope.country=angular.copy(item);
-
+        $scope.user=angular.copy(item);
+        
     };
 
-    $scope.addCountry=function(item){
-        if(item._id){
+    $scope.addCountry=function(){
+        alert("ServiceHit");
+        
+            $http({
+                method:'POST',
+                url:"https://reqres.in/api/users",
+                data:{
+                    "name": "Koushik1",
+                    "job": "Team Lead"
+                },
+                datatype:"json",
+                Headers:{'Content-Type':'application/json'}
+            }).success(function(responcedata){
+            console.log(responcedata);
+            }).error(function(error1){
 
-        }
-        else
-        {
+            });
 
-        }
+        
     };
+$scope.addcountrynew=function(item){
+if(item.id)
+{
+    validationService.Update(item).then(function(response){
+        $scope.resetForm();
+    },function(error){
 
+    }
+);
+}
+else
+{
+validationService.add("/country",item).then(function(resolve){
+
+});
+}
+};
+    $scope.UpdateCountry=function(){
+        alert("ServiceHit");
+        
+            $http({
+                method:'PUT',
+                url:"https://reqres.in/api/users/877",
+                data:{
+                    "name": "Koushik1",
+                    "job": "Team Lead1"
+                },
+                datatype:"json",
+                Headers:{'Content-Type':'application/json'}
+            }).success(function(responcedata){
+            console.log(responcedata);
+            }).error(function(error1){
+
+            });
+
+        
+    };
+    
     $scope.activate=function(itemId){
 
     };
-    $scope.activate=function(itemId){
+    $scope.Dactiveactivate=function(itemId){
 
     };
     $scope.propertName='name';
@@ -76,4 +129,21 @@ validationApp.controller('mainController',['validationService', function($scope,
     }
 
 
-}]);
+});
+
+app.filter("searchFilter",function(){
+    debugger;
+return function(items,searchText){
+    if(!angular.isDefined(searchText) || searchText == ''){
+        return items;
+       }  
+    var filtered = [];
+    angular.forEach(items, function(item) {
+
+        if(item.toString().toLowerCase().indexOf(searchText.toString().toLowerCase()) !== -1){
+                filtered.push(item);
+            }
+    });
+return filtered;
+}
+});
