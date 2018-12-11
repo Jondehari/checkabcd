@@ -1,52 +1,45 @@
-angular.module('validationApp')
-.service('validationService',function($q,$http)
+
+app.service("validationService",function($q,$http){
+
+    return({
+        countrylist:countrylist,
+        GetcountryList:GetcountryList,
+        Update:Update
+     });
+
+function GetcountryList()
 {
-    var getUserRoles = function() {
-        return $q(function(resolve, reject) {
-        $http({
-         method: 'GET',
-         url: "https://reqres.in/api/users?page=2",
-         headers: {'Content-Type': 'application/json'}
-         }).then(function (response) {
-            //console.log("ROLESS",response);
-           if(response.data.Ack === "1") {
-              resolve(response.data);
-           } else {
-                reject(response.data.msg);
-           }
-           //console.log("ROLESS",response);
-        },function(response) {
-                     //console.log(response);
-             reject(response.data.msg);
-            });
-        });
-     };
+   return $q(function(resolve,reject){
+    $http({
+        method:'GET',
+        url:"https://reqres.in/api/users?page=2",
+        datatype:'json',
+        Headers:{'Content-Type':'application/json'}
+        }).success(function (responce){
+        resolve(responce.data)
+        }).error(function(errorList1){
+        reject("Failed To Load Data")
+        })
+    })
+    
+}
 
-     var countrylist = function() {
-         alert("Koushi Service");
-        return $q(function(resolve, reject) {
-        $http({
-         method: 'GET',
-         url: "https://reqres.in/api/users?page=2",
-         headers: {'Content-Type': 'application/json'}
-         }).then(function (response) {
-            //console.log("ROLESS",response);
-           if(response.data) {
-              resolve(response.data);
-              console.log("CountruList",response.data);
-           } else {
-                reject(response.data.msg);
-           }
-           //console.log("ROLESS",response);
-        },function(response) {
-                     //console.log(response);
-             reject(response.data.msg);
-            });
-        });
-     };
-
-
-     return{
-        countrylist=countrylist
-     }
+function Update(item){
+    console.log("datakkkk",item);
+   return $q(function(resolve,reject){
+    $http({
+    method:'PUT',
+    url:"https://reqres.in/api/users/2",
+    data:{"name":item.first_name,"job":item.last_name},
+    datatype:'json',
+    Headers:{'Content-Type':'application/json'}
+    }).success(function(responce){
+    console.log("Modi",responce);
+    resolve(responce.data)
+    }).error(function(error1){
+    reject("Failed To Update")
+    })
+    });
+}
+     
 });
